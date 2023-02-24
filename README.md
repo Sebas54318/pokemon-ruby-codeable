@@ -3,4 +3,5 @@
 ## Miembros de equipo
 
 - Diego Torres
+- Manuel Ego Aguirre 
 - Sebastian

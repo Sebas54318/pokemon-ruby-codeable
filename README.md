@@ -4,3 +4,5 @@
 
 - Diego Torres
 - Yahaira Collado
+- Manuel Ego Aguirre 
+- Sebastian

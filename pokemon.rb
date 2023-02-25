@@ -1,9 +1,12 @@
 # require neccesary files
 require_relative "pokedex/pokemons"
+require_relative "pokedex/moves"
 
 class Pokemon
   # include neccesary modules
   include Pokedex
+
+  attr_reader :stats
 
   def initialize(species, name = nil, level = nil)
     @name = name || species
@@ -21,38 +24,60 @@ class Pokemon
     @effort_values = effort_values
     @experience_points = initial_exp(@level)
     @stats = calc_stats
+
+    @current_hp = nil
+    @current_move = nil
   end
 
   def prepare_for_battle
     # Complete this
+    @current_hp = @stats[:hp]
   end
 
-  def receive_damage
-    # Complete this
+  def receive_damage(damage)
+    @current_hp -= damage
+    @current_hp = 0 if @current_hp.negative?
   end
 
-  def set_current_move
-    # Complete this
+  def set_current_move(move)
+    @current_move = MOVES[move]
   end
 
   def fainted?
-    # Complete this
+    @current_hp.zero?
   end
 
-  def attack(target)
+  def attack(target) 
+    # target es un objeto de la clase Pokemon
     # Print attack message 'Tortuguita used MOVE!'
+    puts "#{@name} used #{@current_move[:name].upcase}!"
     # Accuracy check
     # If the movement is not missed
-    # -- Calculate base damage
+    if rand(1..100) < @current_move[:accuracy]
+      # -- Calculate base damage
+      is_special = SPECIAL_MOVE_TYPE.includes?(@current_move[:type])
+      offensive_stat = is_special ? @stats[:special_attack] : @stats[:attack]
+      target_defensive_stat = is_special ? target.stats[:special_defense] : target.stats[:defense]
+      base_damage = ((((2 * @level / 5.0) + 2).floor * offensive_stat * @current_move[:power] / target_defensive_stat)
+                    .floor / 50.0).floor + 2
+      
     # -- Critical Hit check
+    if rand(1..16) == 1
     # -- If critical, multiply base damage and print message 'It was CRITICAL hit!'
+      base_damage *= 1.5
+      puts "It was CRITICAL hit!"
+    
     # -- Effectiveness check
     # -- Mutltiply damage by effectiveness multiplier and round down. Print message if neccesary
     # ---- "It's not very effective..." when effectivenes is less than or equal to 0.5
     # ---- "It's super effective!" when effectivenes is greater than or equal to 1.5
     # ---- "It doesn't affect [target name]!" when effectivenes is 0
+    
     # -- Inflict damage to target and print message "And it hit [target name] with [damage] damage""
-    # Else, print "But it MISSED!"
+    else
+      puts "But it MISSED!"
+    end
+
   end
 
   def increase_stats(target)
@@ -117,7 +142,13 @@ class Pokemon
   end
 end
 
-# charmanderlvl3 = Pokemon.new("Charmander", "Colita", 3)
-# charmanderlvl1 = Pokemon.new("Charmander")
-# p charmanderlvl3
-# p charmanderlvl1
+charmander = Pokemon.new("Charmander", "Colita")
+# p charmander.stats
+# charmander.set_current_move("tackle")
+# # charmander.attack("otro pokemon")
+
+# def show_stats(pokemon)
+#   p pokemon.stats
+# end
+
+# show_stats(charmander)

@@ -44,12 +44,10 @@ class Battle
   def prepare_pokemons
     @players = [@player1, @player2]
     @players.each { |player| player.pokemon.prepare_for_battle}
-    puts "#{@player2.name} sent out #{@player2.pokemon.name.upcase}!"
-    puts "#{@player1.name} sent out #{@player1.pokemon.name.upcase}!"
   end
 
   def display_pokemons
-    @players = [@player1, @player2]
+    @players = [@player2, @player1]
     @players.each do |player|
       puts "#{player.name} sent out #{player.pokemon.name.upcase}!"
     end
@@ -70,14 +68,13 @@ class Battle
   end
 
   def calculate_order
-    if  @player1.pokemon.current_move[:priority] == @player2.pokemon.current_move[:priority]
-        if @player1.pokemon.stats[:speed] == @player2.pokemon.stats[:speed]
-          first = [@player1.pokemon, @player2.pokemon].sample
-        end
-        first = @player1.pokemon.stats[:speed] > @player2.pokemon.stats[:speed] ? @player1.pokemon : @player2.pokemon
-      else 
-        first = @player1.pokemon.current_move[:priority] > @player2.pokemon.current_move[:priority] ? @player1.pokemon : @player2.pokemon
-      end
+    first = [@player1.pokemon, @player2.pokemon].sample
+    if @player1.pokemon.stats[:speed] != @player2.pokemon.stats[:speed]
+      first = @player1.pokemon.stats[:speed] > @player2.pokemon.stats[:speed] ? @player1.pokemon : @player2.pokemon  
+    end
+    if  @player1.pokemon.current_move[:priority] != @player2.pokemon.current_move[:priority]
+      first = @player1.pokemon.current_move[:priority] > @player2.pokemon.current_move[:priority] ? @player1.pokemon : @player2.pokemon
+    end
       
       second = first == @player1.pokemon ? @player2.pokemon : @player1.pokemon
       [first, second]

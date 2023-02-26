@@ -1,6 +1,6 @@
 # require neccesary files
 require_relative "pokemon"
-require_relative "pokedex/pokemons"
+# require_relative "pokedex/pokemons"
 
 class Player
   def initialize(player_name, pokemon_specie, pokemon_name = nil, pokemon_level = nil)

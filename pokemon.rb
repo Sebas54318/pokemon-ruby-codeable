@@ -5,7 +5,7 @@ require_relative "pokedex/moves"
 class Pokemon
   include Pokedex
 
-  attr_reader :stats, :type, :name, :base_exp, :level, :moves, :species, :experience_points
+  attr_reader :stats, :type, :name, :base_exp, :level , :moves, :current_hp, :current_move, :species, :experience_points
 
   def initialize(species, name = nil, level = nil)
     @name = name || species

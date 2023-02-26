@@ -96,8 +96,8 @@ class Battle
   end
 end
 
-player1 = Player.new("Renzo", "Squirtle")
-player2 = Player.new("Manuel", "Charmander", nil, 3)
+#player1 = Player.new("Renzo", "Squirtle")
+#player2 = Player.new("Manuel", "Charmander", nil, 3)
 
-battle = Battle.new(player1, player2)
-battle.start
+#battle = Battle.new(player1, player2)
+#battle.start

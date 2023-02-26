@@ -3,6 +3,8 @@ require_relative "pokemon"
 # require_relative "pokedex/pokemons"
 
 class Player
+
+  attr_reader :name, :pokemon
   def initialize(player_name, pokemon_specie, pokemon_name = nil, pokemon_level = nil)
     @name = player_name
     @pokemon = Pokemon.new(pokemon_specie, pokemon_name, pokemon_level)

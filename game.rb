@@ -5,9 +5,10 @@ class Game
   def start
     print_welcome
     player_name = ask_for_player_name
-    pokemon_species = ask_for_pokemon_species
+    pokemon_species = ask_for_pokemon_species(player_name)
     pokemon_name = ask_for_pokemon_name
     @player = Player.new(player_name, pokemon_species, pokemon_name)
+    print_ready
 
     action = menu
     until action == "Exit"
@@ -29,12 +30,16 @@ class Game
 
   def train
     bot = Bot.new("Random Person", Pokedex::POKEMONS.keys.sample, nil, rand(1..6))
+    return unless chose_fight(bot)
+
     battle = Battle.new(@player, bot)
     battle.start
   end
 
   def challenge_leader
     bot = Bot.new("Brock", "Onix", nil, 10)
+    return unless chose_fight(bot)
+    
     battle = Battle.new(@player, bot)
     battle.start
   end
@@ -46,7 +51,7 @@ class Game
     puts pokemon.name
     puts "Kind: #{pokemon.species}"
     puts "Level: #{pokemon.level}"
-    puts "Type: #{pokemon.type}"
+    puts "Type: #{pokemon.type.join(", ")}"
     puts "Stats:"
     puts "HP: #{stats[:hp]}"
     puts "Attack: #{stats[:attack]}"
@@ -125,5 +130,28 @@ In my old age, I have only 3 left, but you can have one! Choose!"
     puts "Give your pokemon a name?"
     print "> "
     gets.chomp
+  end
+
+  def print_ready
+    puts "#{@player.name.upcase}, raise your young #{@player.pokemon.name.upcase} by making it fight!"
+    puts "When you feel ready you can challenge BROCK, the PEWTER's GYM LEADER"
+  end
+
+  def chose_fight(bot)
+    puts "#{@player.name} challenge #{bot.name} for training"
+    puts "#{bot.name} has a #{bot.pokemon.name} level #{bot.pokemon.level}"
+    
+    option = nil
+
+    loop do
+      puts "What do you want to do now?\n"
+      puts "1. Fight        2. Leave"
+      print "> "
+      option = gets.chomp
+      break if ["Fight", "Leave"].include?(option)
+      puts "Invalid option"
+    end
+
+    option == "Fight"
   end
 end

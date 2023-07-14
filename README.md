@@ -7,5 +7,5 @@
 - Bryan Fernandez
 - Yahaira Collado
 - Manuel Ego Aguirre 
-- Sebastian
+- Sebastian Maguina
 
